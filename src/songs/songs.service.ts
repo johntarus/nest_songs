@@ -5,11 +5,14 @@ import { Repository } from 'typeorm';
 import { CreateSongDto } from './Dtos/create-song.dto';
 import { UpdateSongDto } from './Dtos/UpdateSongDto';
 import { PaginationDto } from './Dtos/pagination.dto';
+import { Artist } from './Entities/Artist';
 
 @Injectable()
 export class SongsService {
   constructor(
     @InjectRepository(Song) private readonly songRepository: Repository<Song>,
+    @InjectRepository(Artist)
+    private readonly artistRepository: Repository<Artist>,
   ) {}
 
   async create(songDto: CreateSongDto) {
@@ -19,6 +22,10 @@ export class SongsService {
     song.duration = songDto.duration;
     song.releasedDate = songDto.releasedDate;
     song.lyrics = songDto.lyrics;
+
+    const artists = await this.artistRepository.findByIds(songDto.artists);
+    song.artists = artists;
+
     return await this.songRepository.save(song);
   }
 

@@ -9,10 +9,11 @@ import { DataSource } from 'typeorm';
 import { Song } from './songs/Entities/Song';
 import { User } from './songs/Entities/User';
 import { Artist } from './songs/Entities/Artist';
+import { PlaylistModule } from './playlist/playlist.module';
+import { Playlist } from './songs/Entities/Playlist';
 
 @Module({
   imports: [
-    SongsModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
@@ -20,9 +21,11 @@ import { Artist } from './songs/Entities/Artist';
       username: 'postgres',
       password: 'postgres',
       database: 'songs_db',
-      entities: [Song, User, Artist],
+      entities: [Song, Artist, User, Playlist],
       synchronize: true,
     }),
+    SongsModule,
+    PlaylistModule,
   ],
   controllers: [AppController],
   providers: [AppService],
