@@ -7,10 +7,12 @@ import { LoggerMiddleware } from './common/middleware/logger/logger.middleware';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { Song } from './songs/Entities/Song';
-import { User } from './songs/Entities/User';
+import { User } from './user/Entities/User';
 import { Artist } from './songs/Entities/Artist';
 import { PlaylistModule } from './playlist/playlist.module';
 import { Playlist } from './songs/Entities/Playlist';
+import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -26,6 +28,8 @@ import { Playlist } from './songs/Entities/Playlist';
     }),
     SongsModule,
     PlaylistModule,
+    UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

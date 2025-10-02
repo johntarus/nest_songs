@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 
 import { Song } from './Song';
-import { User } from './User';
+import { User } from '../../user/Entities/User';
 
 @Entity('playlists')
 export class Playlist {

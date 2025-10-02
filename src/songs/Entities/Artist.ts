@@ -5,7 +5,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { User } from './User';
+import { User } from '../../user/Entities/User';
 import { Song } from './Song';
 
 @Entity('artists')

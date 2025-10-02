@@ -5,8 +5,9 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Artist } from './Artist';
-import { Playlist } from './Playlist';
+import { Artist } from '../../songs/Entities/Artist';
+import { Playlist } from '../../songs/Entities/Playlist';
+import { Exclude } from 'class-transformer';
 
 @Entity('users')
 export class User {
@@ -19,10 +20,11 @@ export class User {
   @Column()
   lastName: string;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @Column()
+  @Exclude()
   password: string;
 
   @OneToOne(() => Artist, (artist) => artist.user)

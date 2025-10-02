@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Playlist } from '../songs/Entities/Playlist';
 import { Repository } from 'typeorm';
 import { Song } from '../songs/Entities/Song';
-import { User } from '../songs/Entities/User';
+import { User } from '../user/Entities/User';
 import { CreatePlayListDto } from './Dtos/create-playlist-dto';
 
 @Injectable()
@@ -28,6 +28,7 @@ export class PlaylistService {
       id: createPlayListDto.user,
     });
     playlist.user = user;
+
     return await this.playlistRepository.save(playlist);
   }
 }

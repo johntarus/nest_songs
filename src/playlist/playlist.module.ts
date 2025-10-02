@@ -4,7 +4,7 @@ import { PlaylistController } from './playlist.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Playlist } from '../songs/Entities/Playlist';
 import { Song } from '../songs/Entities/Song';
-import { User } from '../songs/Entities/User';
+import { User } from '../user/Entities/User';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Playlist, Song, User])],
