@@ -8,10 +8,12 @@ import {
   ParseIntPipe,
   Delete,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { SongsService } from './songs.service';
 import { CreateSongDto } from './Dtos/create-song.dto';
 import { PaginationDto } from './Dtos/pagination.dto';
+import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
 
 @Controller('songs')
 export class SongsController {
@@ -20,7 +22,7 @@ export class SongsController {
   create(@Body() createSongDto: CreateSongDto) {
     return this.songsService.create(createSongDto);
   }
-
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll(@Query() paginationDto: PaginationDto) {
     return this.songsService.findAll(paginationDto);
