@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { User } from './Entities/User';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { CreateUserDTO } from './Dtos/create-user.dto';
 
 @Injectable()
@@ -32,5 +32,26 @@ export class UserService {
       where: { email: email },
     });
     return user;
+  }
+
+  async findById(id: number) {
+    return this.userRepository.findOneBy({ id: id });
+  }
+
+  async updateSecretKey(userId: number, secret: string): Promise<UpdateResult> {
+    return this.userRepository.update(
+      { id: userId },
+      { twoFASecret: secret, enable2FA: true },
+    );
+  }
+
+  async disable2FA(userId: number): Promise<UpdateResult> {
+    return this.userRepository.update(
+      { id: userId },
+      {
+        enable2FA: false,
+        twoFASecret: null,
+      },
+    );
   }
 }

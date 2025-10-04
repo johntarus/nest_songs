@@ -23,9 +23,18 @@ export class User {
   @Column({ unique: true })
   email: string;
 
+  // @Column({ nullable: true })
+  // phone?: string;
+
   @Column()
   @Exclude()
   password: string;
+
+  @Column({ nullable: true, type: 'text' })
+  twoFASecret: string | null;
+
+  @Column({ default: false, type: 'boolean' })
+  enable2FA: boolean;
 
   @OneToOne(() => Artist, (artist) => artist.user)
   artist: Artist;

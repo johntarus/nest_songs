@@ -6,30 +6,27 @@ import { SongsController } from './songs/songs.controller';
 import { LoggerMiddleware } from './common/middleware/logger/logger.middleware';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
-import { Song } from './songs/Entities/Song';
-import { User } from './user/Entities/User';
-import { Artist } from './songs/Entities/Artist';
 import { PlaylistModule } from './playlist/playlist.module';
-import { Playlist } from './songs/Entities/Playlist';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import { dataSourceOptions } from './songs_db/data-source';
+import { SeedModule } from './seed/seed.module';
+import { ConfigModule } from '@nestjs/config';
+import configuration from './config/configuration';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'postgres',
-      database: 'songs_db',
-      entities: [Song, Artist, User, Playlist],
-      synchronize: true,
+    TypeOrmModule.forRoot(dataSourceOptions),
+    ConfigModule.forRoot({
+      envFilePath: ['.development.env', '.production.env'],
+      isGlobal: true,
+      load: [configuration],
     }),
     SongsModule,
     PlaylistModule,
     UserModule,
     AuthModule,
+    SeedModule,
   ],
   controllers: [AppController],
   providers: [AppService],
@@ -38,6 +35,7 @@ export class AppModule implements NestModule {
   constructor(private readonly dataSource: DataSource) {
     console.log(dataSource.driver.database, 'used database---->');
   }
+
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LoggerMiddleware).forRoutes(SongsController);
   }

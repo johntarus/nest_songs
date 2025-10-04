@@ -17,15 +17,21 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "migration:generate": "npx typeorm-ts-node-commonjs migration:generate -d src/songs_db/data-source.ts src/songs_db/migrations",
+    "migration:run": "npx typeorm-ts-node-commonjs migration:run -d src/songs_db/data-source.ts",
+    "migration:revert": "npx typeorm-ts-node-commonjs migration:revert -d src/songs_db/data-source.ts"
   },
   "dependencies": {
+    "@faker-js/faker": "^10.0.0",
     "@nestjs/common": "^11.0.1",
+    "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
     "@nestjs/jwt": "^11.0.0",
     "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/typeorm": "^11.0.0",
+    "@types/speakeasy": "^2.0.10",
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.2",
     "class-transformer": "^0.5.1",
@@ -37,6 +43,7 @@
     "postgres": "^3.4.7",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
+    "speakeasy": "^2.0.0",
     "typeorm": "^0.3.27"
   },
   "devDependencies": {
