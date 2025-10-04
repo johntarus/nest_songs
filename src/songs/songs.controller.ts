@@ -1,30 +1,39 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Param,
-  Put,
-  ParseIntPipe,
+  Controller,
   Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
   Query,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { SongsService } from './songs.service';
 import { CreateSongDto } from './Dtos/create-song.dto';
 import { PaginationDto } from './Dtos/pagination.dto';
 import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
+import { PaginatedSongsResponse } from './Dtos/paginated-songs-response.dto';
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('songs')
 @Controller('songs')
 export class SongsController {
   constructor(private readonly songsService: SongsService) {}
+
   @Post()
   create(@Body() createSongDto: CreateSongDto) {
     return this.songsService.create(createSongDto);
   }
+
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT-auth')
   @Get()
-  findAll(@Query() paginationDto: PaginationDto) {
+  @ApiOkResponse({ type: PaginatedSongsResponse })
+  findAll(@Query() paginationDto: PaginationDto, @Req() req) {
+    console.log(req.headers.authorization, '---------------->');
     return this.songsService.findAll(paginationDto);
   }
 

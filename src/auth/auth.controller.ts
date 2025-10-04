@@ -7,6 +7,7 @@ import { Enable2FAType } from './types/auth-types';
 import { JwtAuthGuard } from './jwt/jwt-auth.guard';
 import { UpdateResult } from 'typeorm';
 import { ValidateTokenDTO } from './types/validate-token.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 interface RefreshTokenDto {
   refreshToken: string;
@@ -16,6 +17,7 @@ export interface RefreshTokenResponse {
   accessToken: string;
 }
 
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(

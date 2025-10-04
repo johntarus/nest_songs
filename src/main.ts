@@ -21,7 +21,18 @@ async function bootstrap() {
     .setTitle('Songs API')
     .setDescription('API documentation for Songs App')
     .setVersion('1.0')
-    .addBearerAuth() // if you use JWT auth
+    .addBearerAuth(
+      // Enable Bearer Auth here
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'JWT',
+        description: 'Enter JWT token',
+        in: 'header',
+      },
+      'JWT-auth',
+    )
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
